@@ -44,7 +44,6 @@ class KategoriController extends Controller
         try {
             //code...
             $data = Kategori::create($input);
-
             return $this->sendResponse($data, 'Kategori berhasil di buat');
         } catch (\Throwable $e) {
             //throw $th;

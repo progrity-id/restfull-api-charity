@@ -1,8 +1,10 @@
 <?php
 
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SupplierController;
+use App\Http\Controllers\TransaksiController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -20,7 +22,13 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::POST('register', [AuthController::class, 'register']);
+Route::POST('login', [AuthController::class, 'login']);
 
-Route::resource('kategori', KategoriController::class);
-Route::resource('supplier', SupplierController::class);
-Route::resource('produk', ProdukController::class);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('kategori', KategoriController::class);
+    Route::resource('supplier', SupplierController::class);
+    Route::resource('produk', ProdukController::class);
+    Route::resource('transaksi', TransaksiController::class);
+
+});
