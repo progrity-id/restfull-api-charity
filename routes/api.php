@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\FileUploadController;
 use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\ProdukController;
 use App\Http\Controllers\SupplierController;
@@ -24,11 +25,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 Route::POST('register', [AuthController::class, 'register']);
 Route::POST('login', [AuthController::class, 'login']);
+Route::POST('upload-file', [FileUploadController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('kategori', KategoriController::class);
     Route::resource('supplier', SupplierController::class);
     Route::resource('produk', ProdukController::class);
     Route::resource('transaksi', TransaksiController::class);
-
 });
