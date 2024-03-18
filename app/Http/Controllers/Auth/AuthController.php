@@ -45,7 +45,7 @@ class AuthController extends Controller
         // cek password
         // dd($user);die;
         // dd(Hash::check($request->password, $user->passowrd));die;
-        if (!$user || !Hash::check($request->password, $user->passowrd)) {
+        if (!$user || !Hash::check($request->password, $user->password)) {
             return $this->sendError('Email dan password salah', 401);
         }
         $data['token'] = $user->createToken($request->email)->plainTextToken;
