@@ -28,8 +28,8 @@ Route::POST('login', [AuthController::class, 'login']);
 Route::POST('upload-file', [FileUploadController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::resource('kategori', KategoriController::class);
-    Route::resource('supplier', SupplierController::class);
-    Route::resource('produk', ProdukController::class);
-    Route::resource('transaksi', TransaksiController::class);
+    Route::apiResource('kategori', KategoriController::class);
+    Route::apiResource('supplier', SupplierController::class);
+    Route::apiResource('produk', ProdukController::class);
+    Route::apiResource('transaksi', TransaksiController::class);
 });
