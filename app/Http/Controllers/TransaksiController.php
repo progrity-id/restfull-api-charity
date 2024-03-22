@@ -17,7 +17,6 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         //
-        
         if ($request->list == true) {
             $data = Transaksi::with('dataTransaksiDetail.dataProduk')->get();
         } else {
@@ -45,9 +44,10 @@ class TransaksiController extends Controller
         $input = $request->all();
 
         $validator = Validator::make($input, [
-            'status' => 'required|string|in:Proses,Selesai',
+            'status' => 'required|string|in:Proses,Selesai,Batal',
             'tanggal' => 'required',
             'total' => 'required',
+            'total' => 'tax',
             'id_users' => 'required',
             'details' => 'required|array',
             'details.*.id_produk' => 'required',
@@ -56,7 +56,7 @@ class TransaksiController extends Controller
             'details.*.total' => 'required',
         ]);
         if ($validator->fails()) {
-            return $this->sendError('validasi eprr', $validator->errors());
+            return $this->sendError('validasi error', $validator->errors());
         }
         try {
             //code...
