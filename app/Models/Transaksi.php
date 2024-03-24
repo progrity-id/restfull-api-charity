@@ -11,9 +11,12 @@ class Transaksi extends Model
     protected $fillable = [
         'inv',
         'tanggal',
+        'tax',
         'total',
         'status',
         'id_users',
+        'metode_bayar',
+
     ];
 
     public function dataTransaksiDetail()

@@ -11,11 +11,16 @@ class ProdukController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
 
-        $data = Produk::with('dataKategori','dataSupplier')->get();
+        $data = new Produk();
+        if ($request->list == true) {
+            $data = $data->with('dataKategori', 'dataSupplier')->get();
+        } else {
+            $data = $data->with('dataKategori', 'dataSupplier')->paginate(3);
+        }
 
         // return $data;
         return $this->sendResponse($data, 'Produk berhasil ditampilkan');

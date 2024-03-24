@@ -11,10 +11,15 @@ class SupplierController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $data = Supplier::all();
+        $data = new Supplier();
+        if ($request->list == true) {
+            $data = $data->get();
+        } else {
+            $data = $data->paginate(3);
+        }
 
         // return $data;
         return $this->sendResponse($data, 'Supplier berhasil ditampilkan');

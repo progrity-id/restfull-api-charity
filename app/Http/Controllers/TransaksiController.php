@@ -17,10 +17,14 @@ class TransaksiController extends Controller
     public function index(Request $request)
     {
         //
+        $data = new Transaksi();
+        if ($request->status) {
+            $data = $data->where('status', $request->status);
+        }
         if ($request->list == true) {
-            $data = Transaksi::with('dataTransaksiDetail.dataProduk')->get();
+            $data = $data->with('dataTransaksiDetail.dataProduk')->get();
         } else {
-            $data = Transaksi::paginate(3);
+            $data = $data->paginate(3);
         }
 
         // return $data;
@@ -47,7 +51,7 @@ class TransaksiController extends Controller
             'status' => 'required|string|in:Proses,Selesai,Batal',
             'tanggal' => 'required',
             'total' => 'required',
-            'total' => 'tax',
+            'tax' => 'required',
             'id_users' => 'required',
             'details' => 'required|array',
             'details.*.id_produk' => 'required',
@@ -141,8 +145,19 @@ class TransaksiController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Transaksi $transaksi)
+    public function destroy($id)
     {
         //
+        try {
+            // DB::beginTransaction();
+
+            TransaksiDetail::where('id_transaksi', $id)->delete();
+            $data = Transaksi::find($id);
+            $data->delete();
+            return $this->sendResponse([], 'Transaksi deleted successfully.');
+        } catch (\Throwable $e) {
+            // DB::rollBack();
+            return $this->sendError('Error ' . $e->getMessage(), [], 400);
+        }
     }
 }

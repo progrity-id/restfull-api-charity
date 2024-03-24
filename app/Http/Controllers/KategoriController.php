@@ -11,15 +11,18 @@ class KategoriController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         //
-        $data = Kategori::all();
-
+        $data = new Kategori();
+        if ($request->list == true) {
+            $data = $data->get();
+        } else {
+            $data = $data->paginate(3);
+        }
         // return $data;
         return $this->sendResponse($data, 'Kategori berhasil ditampilkan');
     }
-
     /**
      * Show the form for creating a new resource.
      */
