@@ -16,6 +16,11 @@ class ProdukController extends Controller
         //
 
         $data = new Produk();
+
+        if ($request->id_kategori) {
+            $data = $data->where('id_kategori', $request->id_kategori);
+
+        }
         if ($request->list == true) {
             $data = $data->with('dataKategori', 'dataSupplier')->get();
         } else {
